@@ -1,42 +1,33 @@
 <template>
   <div class="msg-display">
-    <div :class="positionClass()">{{receiveData}}</div>
+    <ChatMessage
+      v-for="(message,index) in messages"
+      :message="message"
+      :key="index"
+      :username="username"
+    ></ChatMessage>
   </div>
 </template>
 
 <script>
+import ChatMessage from './ChatMessage'
+
 export default {
   name: 'ChatBox',
+  components: {
+    ChatMessage
+  },
   props: {
     username: String
   },
-  render: function(createElement) {
-    let self = this
-    return createElement('div', {
-      attrs: {
-        class: self.positionClass(),
-        domProps: {
-          innerHTML: this.receiveData
-        }
-      }
-    })
-  },
   data() {
     return {
-      receiveData: ''
-    }
-  },
-  methods: {
-    positionClass() {
-      console.log(this.receiveData.from)
-      return this.receiveData.from === this.username
-        ? 'float-right'
-        : 'float-left'
+      messages: []
     }
   },
   sockets: {
     receiveData(data) {
-      this.receiveData = data
+      this.messages.push(data)
     }
   }
 }
