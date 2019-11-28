@@ -2,9 +2,9 @@
   <div id="app">
     <b-container fluid>
       <div class="chat-box">
-        <ChatBox :username="username" />
+        <ChatBox :username="username" :userData="userData" />
         <hr class="mx-2" />
-        <ChatInput :senderData="senderData" :username="username" />
+        <ChatInput :senderData="senderData" :username="username" :receiver="receiver" />
       </div>
     </b-container>
   </div>
@@ -22,15 +22,20 @@ export default {
   },
   data() {
     return {
-      username: ''
+      username: '',
+      receiver: '',
+      userData: {}
     }
   },
   mounted() {
     this.username = prompt('Enter a username')
     this.$socket.emit('initializeUser', { username: this.username })
+    this.receiver = prompt('Enter receiever name')
   },
   methods: {
-    senderData() {}
+    senderData(data) {
+      this.userData = data
+    }
   }
 }
 </script>
@@ -41,7 +46,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: aquamarine;
+  background-color: #e0e0e0;
   color: #2c3e50;
   margin-top: 40px;
 }

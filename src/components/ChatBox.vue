@@ -1,12 +1,10 @@
 <template>
   <div class="msg-display">
-    <template>
-      <div v-for="(item, index) in messages" :key="index">
-        <div class="row">
-          <div :class="positionMessage(item)">{{ item.message }}</div>
-        </div>
+    <div v-for="(item, index) in messages" :key="index">
+      <div class="row">
+        <div :class="positionMessage(item)">{{ item.message }}</div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -14,17 +12,25 @@
 export default {
   name: 'ChatBox',
   props: {
-    username: String
+    username: String,
+    userData: Object
   },
   data() {
     return {
       messages: []
     }
   },
+  watch: {
+    userData() {
+      this.messages.push(this.userData)
+    }
+  },
   methods: {
     positionMessage(data) {
-      console.log(data.from)
-      return data.from === this.username ? 'float-right' : 'float-left'
+      console.log(data.from, this.username)
+      return data.from === this.username
+        ? 'text-right col-12'
+        : 'text-left col-12'
     }
   },
   sockets: {

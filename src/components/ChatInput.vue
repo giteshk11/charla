@@ -17,6 +17,7 @@ export default {
   name: 'ChatInput',
   props: {
     username: String,
+    receiver: String,
     senderData: Function
   },
   data() {
@@ -33,11 +34,11 @@ export default {
     sendData() {
       let data = {
         from: this.username,
-        to: 'u1',
+        to: this.receiver,
         message: this.message
       }
       this.$socket.emit('sendData', data)
-      this.senderData(this.message)
+      this.senderData(data)
       this.message = ''
     }
   }
