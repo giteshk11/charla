@@ -1,28 +1,30 @@
 <template>
   <div class="msg-display">
-    <ChatMessage
-      v-for="(message,index) in messages"
-      :message="message"
-      :key="index"
-      :username="username"
-    ></ChatMessage>
+    <template>
+      <div v-for="(item, index) in messages" :key="index">
+        <div class="row">
+          <div :class="positionMessage(item)">{{ item.message }}</div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
-import ChatMessage from './ChatMessage'
-
 export default {
   name: 'ChatBox',
-  components: {
-    ChatMessage
-  },
   props: {
     username: String
   },
   data() {
     return {
       messages: []
+    }
+  },
+  methods: {
+    positionMessage(data) {
+      console.log(data.from)
+      return data.from === this.username ? 'float-right' : 'float-left'
     }
   },
   sockets: {
