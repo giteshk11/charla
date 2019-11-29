@@ -1,13 +1,15 @@
 <template>
-  <div class="input-box">
+  <div>
     <b-form inline>
       <b-form-input
         v-model="message"
         class="input-area mx-2"
         placeholder="Type your message here..."
         trim
+        @keydown.enter.prevent="sendData"
+        autocomplete="off"
       ></b-form-input>
-      <b-button class="btn-send" variant="primary" @click.stop.prevent="sendData">Send</b-button>
+      <b-button class="btn-send" variant="primary" @click="sendData">Send</b-button>
     </b-form>
   </div>
 </template>

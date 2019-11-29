@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <b-container fluid>
-      <div class="chat-box">
-        <ChatBox :username="username" :userData="userData" />
+      <div class="chat-box pt-2">
+        <ChatBox :username="username" :userData="userData" class="chat-message-area" />
         <hr class="mx-2" />
-        <ChatInput :senderData="senderData" :username="username" :receiver="receiver" />
+        <ChatInput :senderData="senderData" :username="username" :receiver="receiver" class="mt-4" />
       </div>
     </b-container>
   </div>
@@ -46,8 +46,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: #e0e0e0;
+  background-color: #35495e;
   color: #2c3e50;
-  margin-top: 40px;
+}
+.chat-box {
+  height: 100vh;
+}
+.chat-message-area {
+  height: 85vh;
 }
 </style>

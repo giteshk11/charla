@@ -1,10 +1,13 @@
 <template>
-  <div class="msg-display">
-    <div v-for="(item, index) in messages" :key="index">
-      <div class="row">
-        <div :class="positionMessage(item)">{{ item.message }}</div>
-      </div>
-    </div>
+  <div>
+    <ul class="list-unstyled" v-for="(item, index) in messages" :key="index">
+      <li :class="`${positionMessage(item)} p-2`">
+        <span
+          :class="messageBgColor(item)"
+          class="my-5 text-white message-text p-2"
+        >{{ item.message }}</span>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -29,8 +32,11 @@ export default {
     positionMessage(data) {
       console.log(data.from, this.username)
       return data.from === this.username
-        ? 'text-right col-12'
-        : 'text-left col-12'
+        ? 'text-right'
+        : 'text-left receiver-text-color'
+    },
+    messageBgColor(data) {
+      return data.from !== this.username ? 'receiver-bgcolor' : ''
     }
   },
   sockets: {
@@ -43,6 +49,15 @@ export default {
 
 <style scoped>
 .msg-display {
-  height: 75vh;
+  height: 85vh;
+}
+
+.message-text {
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+}
+
+.receiver-bgcolor {
+  background-color: #42b883;
 }
 </style>
