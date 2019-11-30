@@ -48,9 +48,6 @@ export default {
 </script>
 
 <style scoped>
-.input-box {
-  height: 10vh;
-}
 .input-area {
   width: 88%;
 }

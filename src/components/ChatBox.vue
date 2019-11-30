@@ -36,7 +36,7 @@ export default {
         : 'text-left receiver-text-color'
     },
     messageBgColor(data) {
-      return data.from !== this.username ? 'receiver-bgcolor' : ''
+      return data.from !== this.username ? 'receiver-text' : ''
     }
   },
   sockets: {
@@ -57,7 +57,8 @@ export default {
   border-radius: 10px;
 }
 
-.receiver-bgcolor {
+.receiver-text {
   background-color: #42b883;
+  border-color: black;
 }
 </style>

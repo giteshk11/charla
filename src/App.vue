@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <b-container fluid>
-      <div class="chat-box pt-2">
-        <ChatBox :username="username" :userData="userData" class="chat-message-area" />
-        <hr class="mx-2" />
-        <ChatInput :senderData="senderData" :username="username" :receiver="receiver" class="mt-4" />
-      </div>
+    <b-nav align="center" class="nav-bar">
+      <b-nav-item>
+        <b-img src="../src/assets/logo.png" height="20%"></b-img>
+      </b-nav-item>
+    </b-nav>
+    <b-container fluid class="chat-box">
+      <ChatBox :username="username" :userData="userData" class="overflow-auto" style="height:90%" />
+      <hr class="mx-2" />
+      <ChatInput :senderData="senderData" :username="username" :receiver="receiver" class="mt-4" />
     </b-container>
   </div>
 </template>
@@ -48,11 +51,15 @@ export default {
   text-align: center;
   background-color: #35495e;
   color: #2c3e50;
+  height: 100%;
 }
+
+.nav-bar {
+  border-bottom: 1px solid #42b883;
+  height: 7%;
+}
+
 .chat-box {
-  height: 100vh;
-}
-.chat-message-area {
-  height: 85vh;
+  height: 85%;
 }
 </style>
