@@ -34,14 +34,16 @@ export default {
   },
   methods: {
     sendData() {
-      let data = {
-        from: this.username,
-        to: this.receiver,
-        message: this.message
+      if (this.message) {
+        let data = {
+          from: this.username,
+          to: this.receiver,
+          message: this.message
+        }
+        this.$socket.emit('sendData', data)
+        this.senderData(data)
+        this.message = ''
       }
-      this.$socket.emit('sendData', data)
-      this.senderData(data)
-      this.message = ''
     }
   }
 }

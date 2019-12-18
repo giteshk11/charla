@@ -30,10 +30,7 @@ export default {
   },
   methods: {
     positionMessage(data) {
-      console.log(data.from, this.username)
-      return data.from === this.username
-        ? 'text-right'
-        : 'text-left receiver-text-color'
+      return data.from === this.username ? 'text-right' : 'text-left'
     },
     messageBgColor(data) {
       return data.from !== this.username ? 'receiver-text' : ''
