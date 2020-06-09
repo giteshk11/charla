@@ -1,14 +1,6 @@
 <template>
   <div id="app">
-    <b-nav align="center" class="nav-bar">
-      <b-nav-item>
-        <b-img src="../src/assets/logo.png" height="20%"></b-img>
-      </b-nav-item>
-    </b-nav>
-
-    <b-container fluid class="chat-box">
-      <router-view />
-    </b-container>
+    <router-view />
   </div>
 </template>
 
@@ -43,14 +35,5 @@ export default {
   background-color: #35495e;
   color: #2c3e50;
   height: 100%;
-}
-
-.nav-bar {
-  border-bottom: 1px solid #42b883;
-  height: 7%;
-}
-
-.chat-box {
-  height: 85%;
 }
 </style>

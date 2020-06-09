@@ -1,15 +1,17 @@
 <template>
   <div>
-    <b-form inline>
-      <b-form-input
-        v-model="message"
-        class="input-area mx-2"
-        placeholder="Type your message here..."
-        trim
-        @keydown.enter.prevent="sendData"
-        autocomplete="off"
-      ></b-form-input>
-      <b-button class="btn-send" variant="primary" @click="sendData">Send</b-button>
+    <b-form>
+      <b-form-row>
+        <b-col>
+          <b-form-input
+            v-model="message"
+            placeholder="Type your message here..."
+            trim
+            @keydown.enter.prevent="sendData"
+            autocomplete="off"
+          />
+        </b-col>
+      </b-form-row>
     </b-form>
   </div>
 </template>
@@ -50,10 +52,51 @@ export default {
 </script>
 
 <style scoped>
-.input-area {
-  width: 88%;
+.form-row {
+  padding: 0;
+  margin: 0;
 }
+
 .btn-send {
-  width: 10%;
+  border: 2px solid #41b883;
+  background: none;
+  transition: all 0.2s;
+}
+
+.btn-send:hover {
+  background: #41b883;
+}
+
+.btn-send:focus {
+  box-shadow: none;
+}
+
+input[type='text'] {
+  background: none;
+  border: none;
+  border-bottom: solid 2px #41b883;
+  color: #fff;
+  font-size: 1em;
+  font-weight: 400;
+  margin: 0 01em 0 0;
+  padding: 0.5em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+::placeholder {
+  color: #fff;
+}
+
+input[type='text'] {
+  box-shadow: none;
 }
 </style>

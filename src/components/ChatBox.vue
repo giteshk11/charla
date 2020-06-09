@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="area">
     <ul class="list-unstyled" v-for="(item, index) in messages" :key="index">
       <li :class="`${positionMessage(item)} p-2`">
         <span
           :class="messageBgColor(item)"
           class="my-5 text-white message-text p-2"
-        >{{ item.message }}</span>
+          >{{ item.message }}
+        </span>
       </li>
     </ul>
   </div>
@@ -45,17 +46,23 @@ export default {
 </script>
 
 <style scoped>
-.msg-display {
-  height: 85vh;
+.area {
+  width: 100%;
+  height: 90%;
+  top: 10px;
+  overflow-y: auto;
+  padding: 1.5rem;
 }
 
 .message-text {
-  border: 1px solid #ffffff;
-  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #42b883;
+  border-radius: 5px;
 }
 
 .receiver-text {
+  text-align: center;
   background-color: #42b883;
-  border-color: black;
+  border: 2px solid #42b883;
 }
 </style>
