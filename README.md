@@ -1,5 +1,7 @@
 # chat-app-frontend
 
+This is a side project written in Vue.js(FrontEnd) and Express.js(BackEnd) and using socket.io for establishing connection and transmitting data between two clients.
+
 ## Project setup
 ```
 npm install
