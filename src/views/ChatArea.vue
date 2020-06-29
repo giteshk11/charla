@@ -1,10 +1,10 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col cols="3"  class="p-0" style="border-right: 2px solid #41b883;">
+      <b-col cols="3" class="p-0" style="background-color:#2d7f5b;">
         <Contacts />
       </b-col>
-      <b-col cols="9">
+      <b-col cols="9" style="background-color:rgba(53, 73, 94, 1)">
         <ChatBox :username="username" :userData="userData" />
         <ChatInput
           :senderData="senderData"
