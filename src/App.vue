@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view />
+    <transition>
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -14,11 +16,6 @@ export default {
       userData: {}
     }
   },
-  // mounted() {
-  //   this.username = prompt('Enter a username')
-  //   this.$socket.emit('initializeUser', { username: this.username })
-  //   this.receiver = prompt('Enter receiever name')
-  // },
   methods: {
     senderData(data) {
       this.userData = data

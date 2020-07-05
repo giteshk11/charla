@@ -15,7 +15,7 @@
           <label>Username</label>
         </b-form-group>
 
-        <b-form-group>
+        <!-- <b-form-group>
           <b-form-input
             id="input-2"
             v-model="form.password"
@@ -23,16 +23,16 @@
             placeholder="Enter Password"
           ></b-form-input>
           <label>Password</label>
-        </b-form-group>
+        </b-form-group> -->
 
-        <b-button type="submit" class="btn">Login</b-button>
+        <b-button type="submit" class="btn">Submit</b-button>
       </b-form>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'Login',
@@ -47,33 +47,37 @@ export default {
   },
   methods: {
     onSubmit() {
-      let payload = {
-        username: this.form.username,
-        password: this.form.password
-      }
-      axios
-        .post('http://localhost:3000/users/login', payload, {
-          headers: {
-            'Access-Control-Allow-Origin': '*'
-          }
-        })
-        .then(response => {
-          this.error = false
-          this.userData['from'] = response.data.data.self
-          this.userData['to'] = response.data.data.to
-          if (response.data.statusCode === 200) {
-            this.$router.push({
-              name: 'ChatArea',
-              params: { userData: this.userData }
-            })
-          } else {
-            this.$bvToast.toast('Something went wrong,please try again later', {
-              title: `Error`,
-              variant: 'danger',
-              solid: true
-            })
-          }
-        })
+      let username = this.form.username
+      this.$socket.emit('initializeUser', { username: username })
+      this.$router
+        .replace({ name: 'ChatArea', params: { username: username } })
+
+        // axios
+        //   .post('http://localhost:3000/users/login', payload, {
+        //     headers: {
+        //       'Access-Control-Allow-Origin': '*'
+        //     }
+        //   })
+        //   .then(response => {
+        //     this.error = false
+        //     if (response.data.statusCode === 200) {
+        //       localStorage.setItem(
+        //         'userData',
+        //         JSON.stringify({
+        //           userData: { username: response.data.data.username }
+        //         })
+        //       )
+        //       this.$router.push({
+        //         name: 'ChatArea'
+        //       })
+        //     } else {
+        //       this.$bvToast.toast('Something went wrong,please try again later', {
+        //         title: `Error`,
+        //         variant: 'danger',
+        //         solid: true
+        //       })
+        //     }
+        //   })
         .catch(err => {
           console.log(err)
         })
@@ -151,6 +155,7 @@ export default {
 input[type='text'],
 input[type='password'] {
   background: none;
+  border-radius: 0;
   border: none;
   border-bottom: solid 2px #41b883;
   color: #41b883;
@@ -205,7 +210,7 @@ input[type='password']:focus {
 .form-group input:not(:placeholder-shown) ~ label {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-  font-size: 12px;
+  font-size: 0.8em;
   color: #fff;
 }
 

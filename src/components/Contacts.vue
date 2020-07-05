@@ -1,51 +1,45 @@
 <template>
   <div>
-    <div v-for="(item, index) in arr" :key="index">
-      <b-card no-body class="overflow-hidden mt-1">
-        <b-row no-gutters>
-          <b-col
-            md="3"
-            class="p-0 d-flex justify-content-center align-items-center"
-          >
-            <b-card-img
-              class="profile-pic"
-              :src="item.img"
-              alt="Image"
-            ></b-card-img>
-          </b-col>
-          <b-col md="9" class="m-0 p-0">
-            <b-card-body>
-              <h6>{{ item.username }}</h6>
-              <b-card-text class="peek-msg">{{ item.msg }}</b-card-text>
-            </b-card-body>
-          </b-col>
-        </b-row>
-      </b-card>
-    </div>
+    <b-card
+      class="py-2"
+      v-for="(value, propertyname, index) in filteredUsers"
+      :key="index"
+      no-body
+      @click="openUserChat(propertyname)"
+    >
+      <b-row :socketId="value">
+        <b-col sm="3">
+          <b-avatar class="profile-pic" size="4rem" alt="Image"></b-avatar>
+        </b-col>
+        <b-col sm="9">
+          <b-card-body>
+            <h6>{{ propertyname }}</h6>
+            <!-- <b-card-text class="peek-msg">{{ user }}</b-card-text> -->
+          </b-card-body>
+        </b-col>
+      </b-row>
+    </b-card>
   </div>
 </template>
 
 <script>
 export default {
-  data: function() {
-    return {
-      arr: [
-        {
-          username: 'Jessa',
-          img: require('../assets/img1.jpg'),
-          msg: 'hi'
-        },
-        {
-          username: 'Lana',
-          img: require('../assets/img1.jpg'),
-          msg: 'test'
-        },
-        {
-          username: 'Olivia',
-          img: require('../assets/img1.jpg'),
-          msg: 'i love vue'
-        }
-      ]
+  props: {
+    users: {
+      type: Object
+    },
+    username: String
+  },
+  computed: {
+    filteredUsers: function() {
+      let onlUsers = JSON.parse(JSON.stringify(this.users))
+      delete onlUsers[this.username]
+      return onlUsers
+    }
+  },
+  methods: {
+    openUserChat(username) {
+      this.$emit('openUserChatArea', username)
     }
   }
 }
@@ -53,11 +47,7 @@ export default {
 
 <style scoped>
 .profile-pic {
-  width: 60px;
-  height: 60px;
-  padding: 1px;
-  border: 1.5px solid #35495e;
-  border-radius: 50%;
+  border: 1.5px solid #41b883;
 }
 
 .card {
@@ -65,12 +55,14 @@ export default {
   color: #fff;
   border: 0px;
   border-radius: 0px;
-  border-bottom: 1px solid #35495e;
-  background-color: transparent;
+  border-bottom: 1.35px solid #41b883;
+  background-color: #171a1d;
 }
 
-.card :hover {
+.card:hover {
   cursor: pointer;
+  background-color: rgba(225, 225, 225, 0.1);
+  transition: all linear 0.2s;
 }
 
 .card-body {

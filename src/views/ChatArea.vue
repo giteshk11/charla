@@ -1,16 +1,15 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col cols="3" class="p-0" style="background-color:#2d7f5b;">
-        <Contacts />
-      </b-col>
-      <b-col cols="9" style="background-color:rgba(53, 73, 94, 1)">
-        <ChatBox :username="username" :userData="userData" />
-        <ChatInput
-          :senderData="senderData"
+      <b-col class="p-0 d-sm-none d-md-block contact-area">
+        <Contacts
+          :users="users"
+          @openUserChatArea="openChatArea"
           :username="username"
-          :receiver="receiver"
         />
+      </b-col>
+      <b-col style="background-color:rgba(53, 73, 94, 1)">
+        <ChatBox :sender="username" :receiver="receiver" />
       </b-col>
     </b-row>
   </b-container>
@@ -18,31 +17,33 @@
 
 <script>
 import ChatBox from '../components/ChatBox'
-import ChatInput from '../components/ChatInput'
 import Contacts from '../components/Contacts'
 
 export default {
   name: 'ChatArea',
   components: {
     ChatBox,
-    ChatInput,
     Contacts
   },
   data() {
     return {
       username: '',
       receiver: '',
-      userData: {}
+      users: {}
     }
   },
   mounted() {
-    this.username = this.$route.params.userData.from
-    this.$socket.emit('initializeUser', { username: this.username })
-    this.receiver = this.$route.params.userData.to
+    this.username = this.$route.params.username
+    this.$socket.emit('requestOnlineUsers', this.username)
+  },
+  sockets: {
+    onlineUsers(data) {
+      this.users = data
+    }
   },
   methods: {
-    senderData(data) {
-      this.userData = data
+    openChatArea(username) {
+      this.receiver = username
     }
   }
 }
@@ -57,5 +58,11 @@ export default {
 }
 .row {
   height: 100%;
+}
+
+.contact-area {
+  -ms-flex: 0 0 20rem;
+  flex: 0 0 20rem;
+  background-color: #171a1d;
 }
 </style>
