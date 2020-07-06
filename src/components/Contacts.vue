@@ -1,19 +1,19 @@
 <template>
   <div>
     <b-card
-      class="py-2"
-      v-for="(value, propertyname, index) in filteredUsers"
+      v-for="(user, index) in filteredUsers"
       :key="index"
+      class="py-2"
       no-body
-      @click="openUserChat(propertyname)"
+      @click="openUserChat(user.username)"
     >
-      <b-row :socketId="value">
+      <b-row :socket-id="value">
         <b-col sm="3">
           <b-avatar class="profile-pic" size="4rem" alt="Image"></b-avatar>
         </b-col>
         <b-col sm="9">
           <b-card-body>
-            <h6>{{ propertyname }}</h6>
+            <h6>{{ user.username }}</h6>
             <!-- <b-card-text class="peek-msg">{{ user }}</b-card-text> -->
           </b-card-body>
         </b-col>
@@ -23,21 +23,39 @@
 </template>
 
 <script>
+import { mapMutations, mapActions, mapState } from 'vuex'
+// import ChatBox from '@/components/ChatBox'
+
 export default {
   props: {
-    users: {
-      type: Object
-    },
-    username: String
+    username: {
+      type: String,
+      default: 'u1'
+    }
+  },
+  data() {
+    return {
+      user: {}
+    }
   },
   computed: {
+    ...mapState(['activeChats']),
     filteredUsers: function() {
-      let onlUsers = JSON.parse(JSON.stringify(this.users))
-      delete onlUsers[this.username]
-      return onlUsers
+      let onlUsers = this.activeChats
+      return onlUsers.filter(el => el.username !== this.username)
+    }
+  },
+  mounted() {
+    this.$socket.emit('requestOnlineUsers', this.username)
+  },
+  sockets: {
+    onlineUsers(data) {
+      this.initActiveUsers(data)
     }
   },
   methods: {
+    ...mapMutations(['INIT_ACTIVE_USERS']),
+    ...mapActions(['initActiveUsers']),
     openUserChat(username) {
       this.$emit('openUserChatArea', username)
     }

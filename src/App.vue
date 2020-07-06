@@ -8,19 +8,7 @@
 
 <script>
 export default {
-  name: 'app',
-  data() {
-    return {
-      username: '',
-      receiver: '',
-      userData: {}
-    }
-  },
-  methods: {
-    senderData(data) {
-      this.userData = data
-    }
-  }
+  name: 'app'
 }
 </script>
 

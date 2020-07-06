@@ -2,48 +2,46 @@
   <b-container fluid>
     <b-row>
       <b-col class="p-0 d-sm-none d-md-block contact-area">
-        <Contacts
-          :users="users"
-          @openUserChatArea="openChatArea"
-          :username="username"
-        />
+        <Contacts :username="username" @openUserChatArea="openChatArea" />
       </b-col>
-      <b-col style="background-color:rgba(53, 73, 94, 1)">
-        <ChatBox :sender="username" :receiver="receiver" />
+      <b-col ref="chatbox" style="background-color:rgba(53, 73, 94, 1)">
+        <component
+          :is="currentTab.component"
+          :sender="currentTab.sender"
+          :receiver="currentTab.receiver"
+        />
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import ChatBox from '../components/ChatBox'
-import Contacts from '../components/Contacts'
+import { mapState, mapGetters } from 'vuex'
+import Contacts from '@/components/Contacts'
 
 export default {
   name: 'ChatArea',
   components: {
-    ChatBox,
     Contacts
   },
   data() {
     return {
       username: '',
-      receiver: '',
-      users: {}
+      tabs: this.activeChats,
+      currentTab: {}
     }
+  },
+  computed: {
+    ...mapState(['activeChats']),
+    ...mapGetters(['getChatBox'])
   },
   mounted() {
-    this.username = this.$route.params.username
-    this.$socket.emit('requestOnlineUsers', this.username)
-  },
-  sockets: {
-    onlineUsers(data) {
-      this.users = data
-    }
+    this.username = this.username = this.$route.params.username
   },
   methods: {
-    openChatArea(username) {
-      this.receiver = username
+    openChatArea(receiver) {
+      console.log(receiver)
+      this.currentTab = this.getChatBox
     }
   }
 }

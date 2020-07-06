@@ -1,9 +1,9 @@
 <template>
   <div class="area pt-2">
     <b-row no-gutters class="convo-area">
-      <span class="text-white" v-if="messages.length === 0"
-        >Send a message to start convo</span
-      >
+      <span v-if="messages.length === 0" class="text-white">
+        Send a message to start convo
+      </span>
       <ul class="list-unstyled">
         <li
           v-for="(item, index) in messages"
@@ -11,8 +11,7 @@
           :class="`${positionMessage(item)} p-2`"
         >
           <span
-            :class="messageBgColor(item)"
-            class="my-5 text-white message-text p-2"
+            :class="`${messageBgColor(item)} my-5 text-white message-text p-2`"
             >{{ item.message }}
           </span>
         </li>
@@ -23,8 +22,8 @@
         v-model="selfMessage"
         placeholder="Type your message here..."
         trim
-        @keydown.enter.prevent="sendData"
         autocomplete="off"
+        @keydown.enter.prevent="sendData"
       />
     </b-row>
   </div>
@@ -66,6 +65,7 @@ export default {
   sockets: {
     receiveMessage(data) {
       this.messages.push(data)
+      console.log(this.messages)
     }
   }
 }
