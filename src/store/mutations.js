@@ -1,14 +1,19 @@
 export default {
-  INIT_ACTIVE_USERS: (state, arr) => {
-    state.activeChats = arr
+  INIT_ACTIVE_USERS: (state, payload) => {
+    state.activeUsers = payload.data.map(el => {
+      el.component = payload.component
+      return el
+    })
   },
   ADD_CHAT_BOX: (state, box) => {
-    console.log(state.activeChats)
-    let arr = state.activeChats;
-    arr.forEach(el => {
-      if (el.username !== box.username) {
-        state.activeChats.push(box)
-      }
-    });
+    if (state.activeChats.length !== 0) {
+      state.activeChats.forEach(el => {
+        if (el.receiver !== box.receiver) {
+          state.activeChats.push(box)
+        }
+      })
+    } else {
+      state.activeChats.push(box)
+    }
   }
 }

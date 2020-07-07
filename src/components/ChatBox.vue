@@ -65,7 +65,6 @@ export default {
   sockets: {
     receiveMessage(data) {
       this.messages.push(data)
-      console.log(this.messages)
     }
   }
 }

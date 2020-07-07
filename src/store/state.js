@@ -1,3 +1,4 @@
 export default {
+  activeUsers: [],
   activeChats: []
 }

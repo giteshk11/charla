@@ -1,47 +1,70 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col class="p-0 d-sm-none d-md-block contact-area">
-        <Contacts :username="username" @openUserChatArea="openChatArea" />
-      </b-col>
+      <div class="p-0 d-sm-none d-md-block contact-area">
+        <div
+          v-for="user in filteredUsers"
+          :key="user.username"
+          @click="openChatArea(user)"
+        >
+          <Contacts :username="user.username" />
+        </div>
+      </div>
       <b-col ref="chatbox" style="background-color:rgba(53, 73, 94, 1)">
-        <component
-          :is="currentTab.component"
-          :sender="currentTab.sender"
-          :receiver="currentTab.receiver"
-        />
+        <keep-alive>
+          <component
+            :is="currentTab.component"
+            :key="currentTab.username"
+          ></component>
+        </keep-alive>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import Contacts from '@/components/Contacts'
+import ChatBox from '@/components/ChatBox'
 
 export default {
   name: 'ChatArea',
   components: {
-    Contacts
+    Contacts,
+    ChatBox
   },
   data() {
     return {
       username: '',
-      tabs: this.activeChats,
       currentTab: {}
     }
   },
   computed: {
-    ...mapState(['activeChats']),
-    ...mapGetters(['getChatBox'])
+    ...mapState(['activeUsers']),
+    ...mapGetters(['getChatBox']),
+    filteredUsers: function() {
+      let onlUsers = this.activeUsers
+      return onlUsers.filter(el => el.username !== this.username)
+    }
   },
-  mounted() {
-    this.username = this.username = this.$route.params.username
+  mounted: function() {
+    this.username = this.$route.params.username
+    this.$socket.emit('requestOnlineUsers', this.username)
+  },
+  sockets: {
+    onlineUsers: function(data) {
+      this.initActiveUsers({ data: data, component: ChatBox })
+      console.log(this.activeUsers)
+    }
   },
   methods: {
-    openChatArea(receiver) {
-      console.log(receiver)
-      this.currentTab = this.getChatBox
+    ...mapMutations(['INIT_ACTIVE_USERS']),
+    ...mapActions(['initActiveUsers']),
+    openChatArea: function(data) {
+      this.currentTab = this.activeUsers.find(
+        el => el.username === data.username
+      )
+      console.log(this.currentTab)
     }
   }
 }
